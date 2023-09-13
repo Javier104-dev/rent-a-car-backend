@@ -1,8 +1,17 @@
-const { Sequelize } = require('sequelize');
-const { factory, default: DIContainer } = require('rsdi');
-const { UserModel } = require('../module/user/module');
-
 require('dotenv').config();
+const { Sequelize } = require('sequelize');
+const {
+  factory,
+  default: DIContainer,
+  object,
+  use,
+} = require('rsdi');
+const {
+  UserController,
+  UserService,
+  UserRepository,
+  UserModel,
+} = require('../module/user/module');
 
 const configureSequelize = () => {
   const config = new Sequelize(
@@ -36,6 +45,9 @@ const addCommonDefinitions = (container) => {
 
 const addUserModuleDefinitions = (container) => {
   container.add({
+    UserController: object(UserController).construct(use('UserService')),
+    UserService: object(UserService).construct(use('UserRepository')),
+    UserRepository: object(UserRepository).construct(use('UserModel')),
     UserModel: factory(configureUserModel),
   });
 };
