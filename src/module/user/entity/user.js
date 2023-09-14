@@ -5,7 +5,7 @@ class User {
     lastName,
     nationality,
     address,
-    phoneNumer,
+    phoneNumber,
     email,
     birthdate,
     createdAt,
@@ -16,7 +16,7 @@ class User {
     this.lastName = lastName;
     this.nationality = nationality;
     this.address = address;
-    this.phoneNumer = phoneNumer;
+    this.phoneNumber = phoneNumber;
     this.email = email;
     this.birthdate = birthdate;
     this.createdAt = createdAt;
