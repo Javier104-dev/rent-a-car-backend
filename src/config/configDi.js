@@ -12,6 +12,7 @@ const {
   UserRepository,
   UserModel,
 } = require('../module/user/module');
+const { CarModel } = require('../module/car/module');
 
 const configureSequelize = () => {
   const config = new Sequelize(
@@ -37,6 +38,11 @@ const configureUserModel = (container) => {
   return UserModel;
 };
 
+const configureCarModel = (container) => {
+  CarModel.setup(container.get('Sequelize'));
+  return CarModel;
+};
+
 const addCommonDefinitions = (container) => {
   container.add({
     Sequelize: factory(configureSequelize),
@@ -52,10 +58,17 @@ const addUserModuleDefinitions = (container) => {
   });
 };
 
+const addCarModuleDefinitions = (container) => {
+  container.add({
+    CarModel: factory(configureCarModel),
+  });
+};
+
 const configureDI = () => {
   const container = new DIContainer();
   addCommonDefinitions(container);
   addUserModuleDefinitions(container);
+  addCarModuleDefinitions(container);
   return container;
 };
 

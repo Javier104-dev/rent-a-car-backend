@@ -1,9 +1,10 @@
-const { configureDI } = require('../config/config');
+const { configureDI } = require('../config/configDi');
 
 (async () => {
   const container = configureDI();
-  const mainDb = container.get('Sequelize');
+  const sequelize = container.get('Sequelize');
   container.get('UserModel');
+  container.get('CarModel');
 
-  await mainDb.sync();
+  await sequelize.sync();
 })();

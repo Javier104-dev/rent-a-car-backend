@@ -33,6 +33,8 @@ const fromFormToEntity = ({
   'phone-number': phoneNumber,
   email,
   birthdate,
+  'create-at': createdAt,
+  'update-at': updatedAt,
 }) => new User(
   Number(id),
   firstName,
@@ -42,6 +44,8 @@ const fromFormToEntity = ({
   phoneNumber,
   email,
   birthdate,
+  createdAt,
+  updatedAt,
 );
 
 module.exports = {
