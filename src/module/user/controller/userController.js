@@ -31,8 +31,8 @@ class userController {
   async save(req, res) {
     try {
       const user = fromFormToEntity(req.body);
-      const newUser = await this.userServices.save(user);
-      res.status(200).json(newUser);
+      const userSaved = await this.userServices.save(user);
+      res.status(200).json(userSaved);
 
     } catch (error) {
       res.status(500).json({ error: error.message });

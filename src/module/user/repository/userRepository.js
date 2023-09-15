@@ -15,7 +15,7 @@ class UserRepository {
 
   async getAll() {
     const users = await this.userModel.findAll();
-    const usersEntity = users.map((element) => fromModelToEntity(element));
+    const usersEntity = users.map((user) => fromModelToEntity(user));
     return usersEntity;
   }
 
