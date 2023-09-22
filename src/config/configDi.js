@@ -26,7 +26,7 @@ const configureSequelize = () => {
     process.env.DATABASE_PASSWORD,
     {
       host: process.env.DATABASE_HOST,
-      dialect: process.env.SEQUELIZE_DIALECT,
+      dialect: process.env.DATABASE_DIALECT,
       pool: {
         max: 5,
         min: 0,
