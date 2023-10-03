@@ -7,29 +7,29 @@ const configureDI = require('./config/configDi');
 const { userRoutes } = require('./module/user/module');
 const { carRoutes } = require('./module/car/module');
 
-const server = express();
+const app = express();
 
-server.use(express.json());
-server.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 const container = configureDI();
 const Sequelize = container.get('Sequelize');
 
-server.use(userRoutes(container));
-server.use(carRoutes(container));
+app.use(userRoutes(container));
+app.use(carRoutes(container));
 
-server.use('*', (req, res) => {
+app.use('*', (req, res) => {
   res.status(404).json({ msg: 'Pagina no encontrada' });
 });
 
-server.use((error, req, res, next) => {
+app.use((error, req, res, next) => {
   res.json({ msg: error.message });
 });
 
 (async () => {
   try {
     await Sequelize.authenticate();
-    server.listen(PORT, HOST, () => { console.log(`http://${HOST}:${PORT}`); });
+    app.listen(PORT, HOST, () => { console.log(`http://${HOST}:${PORT}`); });
 
   } catch (error) {
     console.log(error.message);
