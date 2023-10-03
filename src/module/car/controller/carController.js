@@ -6,7 +6,7 @@ class CarController {
     this.carServices = carServices;
   }
 
-  async getCar(req, res) {
+  async getCar(req, res, next) {
     const { id } = req.params;
 
     try {
@@ -14,32 +14,35 @@ class CarController {
       res.status(200).json(car);
 
     } catch (error) {
-      res.status(500).json({ error: error.message });
+      res.status(500);
+      next(error);
     }
   }
 
-  async getAll(req, res) {
+  async getAll(req, res, next) {
     try {
       const cars = await this.carServices.getAll();
       res.status(200).json(cars);
 
     } catch (error) {
-      res.status(500).json({ error: error.message });
+      res.status(500);
+      next(error);
     }
   }
 
-  async save(req, res) {
+  async save(req, res, next) {
     try {
       const car = fromFormToEntity(req.body);
       const carSaved = await this.carServices.save(car);
       res.status(200).json(carSaved);
 
     } catch (error) {
-      res.status(500).json({ error: error.message });
+      res.status(500);
+      next(error);
     }
   }
 
-  async delete(req, res) {
+  async delete(req, res, next) {
     const { id } = req.params;
 
     try {
@@ -48,7 +51,8 @@ class CarController {
       res.status(200).json({ delete: boolean, msg: `Auto con id ${findCar.id} eliminado` });
 
     } catch (error) {
-      res.status(500).json({ error: error.message });
+      res.status(500);
+      next(error);
     }
   }
 }

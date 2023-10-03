@@ -6,7 +6,7 @@ class userController {
     this.userServices = userServices;
   }
 
-  async getUser(req, res) {
+  async getUser(req, res, next) {
     const { id } = req.params;
 
     try {
@@ -14,28 +14,31 @@ class userController {
       res.status(200).json(user);
 
     } catch (error) {
-      res.status(500).json({ error: error.message });
+      res.status(500);
+      next(error);
     }
   }
 
-  async getAll(req, res) {
+  async getAll(req, res, next) {
     try {
       const users = await this.userServices.getAll();
       res.status(200).json(users);
 
     } catch (error) {
-      res.status(500).json({ error: error.message });
+      res.status(500);
+      next(error);
     }
   }
 
-  async save(req, res) {
+  async save(req, res, next) {
     try {
       const user = fromFormToEntity(req.body);
       const userSaved = await this.userServices.save(user);
       res.status(200).json(userSaved);
 
     } catch (error) {
-      res.status(500).json({ error: error.message });
+      res.status(500);
+      next(error);
     }
   }
 

@@ -44,8 +44,8 @@ class CarModel extends Model {
       },
       {
         sequelize: sequelizeInstance,
-        tableName: 'Cars',
-        modelName: 'car',
+        modelName: 'Car',
+        tableName: 'car',
         underscored: true,
         paranoid: true,
       },

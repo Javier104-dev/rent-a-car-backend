@@ -1,11 +1,10 @@
-require('dotenv').config();
-const { Sequelize } = require('sequelize');
 const {
   factory,
   default: DIContainer,
   object,
   use,
 } = require('rsdi');
+const configureSequelize = require('./configDb');
 const {
   UserController,
   UserService,
@@ -18,29 +17,17 @@ const {
   CarRepository,
   CarModel,
 } = require('../module/car/module');
+const ReservationModel = require('../module/reservation/model/reservationModel');
 
-const configureSequelize = () => {
-  const config = new Sequelize(
-    process.env.DATABASE_NAME,
-    process.env.DATABASE_USER,
-    process.env.DATABASE_PASSWORD,
-    {
-      host: process.env.DATABASE_HOST,
-      dialect: process.env.DATABASE_DIALECT,
-      pool: {
-        max: 5,
-        min: 0,
-        acquire: 30000,
-        idle: 10000,
-      },
-    },
-  );
-  return config;
+const configureUserModule = (container) => UserModel.setup(container.get('Sequelize'));
+
+const configureCarModule = (container) => CarModel.setup(container.get('Sequelize'));
+
+const configureReservationModule = (container) => {
+  const model = ReservationModel.setup(container.get('Sequelize'));
+  model.setupAssociations(container.get('CarModel'), container.get('UserModel'));
+  return model;
 };
-
-const configureUserModel = (container) => UserModel.setup(container.get('Sequelize'));
-
-const configureCarModel = (container) => CarModel.setup(container.get('Sequelize'));
 
 const addCommonDefinitions = (container) => {
   container.add({
@@ -53,7 +40,7 @@ const addUserModuleDefinitions = (container) => {
     UserController: object(UserController).construct(use('UserService')),
     UserService: object(UserService).construct(use('UserRepository')),
     UserRepository: object(UserRepository).construct(use('UserModel')),
-    UserModel: factory(configureUserModel),
+    UserModel: factory(configureUserModule),
   });
 };
 
@@ -62,7 +49,13 @@ const addCarModuleDefinitions = (container) => {
     CarController: object(CarController).construct(use('CarService')),
     CarService: object(CarService).construct(use('CarRepository')),
     CarRepository: object(CarRepository).construct(use('CarModel')),
-    CarModel: factory(configureCarModel),
+    CarModel: factory(configureCarModule),
+  });
+};
+
+const addReservationModuleDefinitions = (container) => {
+  container.add({
+    ReservationModel: factory(configureReservationModule),
   });
 };
 
@@ -71,11 +64,8 @@ const configureDI = () => {
   addCommonDefinitions(container);
   addUserModuleDefinitions(container);
   addCarModuleDefinitions(container);
+  addReservationModuleDefinitions(container);
   return container;
 };
 
-module.exports = {
-  HOST: process.env.SERVER_HOST,
-  PORT: process.env.SERVER_PORT,
-  configureDI,
-};
+module.exports = configureDI;

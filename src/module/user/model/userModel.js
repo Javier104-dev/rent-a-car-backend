@@ -43,8 +43,8 @@ class UserModel extends Model {
       },
       {
         sequelize: sequelizeInstance,
-        tableName: 'users',
         modelName: 'User',
+        tableName: 'user',
         underscored: true,
         paranoid: true,
       },
