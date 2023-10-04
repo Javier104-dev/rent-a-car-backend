@@ -2,15 +2,15 @@ const { fromFormToEntity } = require('../mapper/carMapper');
 
 class CarController {
 
-  constructor(carServices) {
-    this.carServices = carServices;
+  constructor(carService) {
+    this.carService = carService;
   }
 
   async getCar(req, res, next) {
     const { id } = req.params;
 
     try {
-      const car = await this.carServices.getCar(Number(id));
+      const car = await this.carService.getCar(Number(id));
       res.status(200).json(car);
 
     } catch (error) {
@@ -21,7 +21,7 @@ class CarController {
 
   async getAll(req, res, next) {
     try {
-      const cars = await this.carServices.getAll();
+      const cars = await this.carService.getAll();
       res.status(200).json(cars);
 
     } catch (error) {
@@ -31,9 +31,11 @@ class CarController {
   }
 
   async save(req, res, next) {
+    const car = req.body;
+
     try {
-      const car = fromFormToEntity(req.body);
-      const carSaved = await this.carServices.save(car);
+      const carEntity = fromFormToEntity(car);
+      const carSaved = await this.carService.save(carEntity);
       res.status(200).json(carSaved);
 
     } catch (error) {
@@ -46,8 +48,8 @@ class CarController {
     const { id } = req.params;
 
     try {
-      const findCar = await this.carServices.getCar(Number(id));
-      const boolean = await this.carServices.delete(findCar);
+      const findCar = await this.carService.getCar(Number(id));
+      const boolean = await this.carService.delete(findCar);
       res.status(200).json({ delete: boolean, msg: `Auto con id ${findCar.id} eliminado` });
 
     } catch (error) {

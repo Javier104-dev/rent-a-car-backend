@@ -17,7 +17,12 @@ const {
   CarRepository,
   CarModel,
 } = require('../module/car/module');
-const ReservationModel = require('../module/reservation/model/reservationModel');
+const {
+  ReservationController,
+  ReservationService,
+  ReservationRepository,
+  ReservationModel,
+} = require('../module/reservation/module');
 
 const configureUserModule = (container) => UserModel.setup(container.get('Sequelize'));
 
@@ -55,6 +60,13 @@ const addCarModuleDefinitions = (container) => {
 
 const addReservationModuleDefinitions = (container) => {
   container.add({
+    ReservationController: object(ReservationController).construct(
+      use('ReservationService'),
+      use('CarService'),
+      use('UserService'),
+    ),
+    ReservationService: object(ReservationService).construct(use('ReservationRepository')),
+    ReservationRepository: object(ReservationRepository).construct(use('ReservationModel')),
     ReservationModel: factory(configureReservationModule),
   });
 };

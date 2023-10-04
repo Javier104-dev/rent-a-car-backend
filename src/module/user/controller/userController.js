@@ -2,15 +2,15 @@ const { fromFormToEntity } = require('../mapper/userMapper');
 
 class userController {
 
-  constructor(userServices) {
-    this.userServices = userServices;
+  constructor(userService) {
+    this.userService = userService;
   }
 
   async getUser(req, res, next) {
     const { id } = req.params;
 
     try {
-      const user = await this.userServices.getUser(Number(id));
+      const user = await this.userService.getUser(Number(id));
       res.status(200).json(user);
 
     } catch (error) {
@@ -21,7 +21,7 @@ class userController {
 
   async getAll(req, res, next) {
     try {
-      const users = await this.userServices.getAll();
+      const users = await this.userService.getAll();
       res.status(200).json(users);
 
     } catch (error) {
@@ -31,9 +31,11 @@ class userController {
   }
 
   async save(req, res, next) {
+    const user = req.body;
+
     try {
-      const user = fromFormToEntity(req.body);
-      const userSaved = await this.userServices.save(user);
+      const userEntity = fromFormToEntity(user);
+      const userSaved = await this.userService.save(userEntity);
       res.status(200).json(userSaved);
 
     } catch (error) {
