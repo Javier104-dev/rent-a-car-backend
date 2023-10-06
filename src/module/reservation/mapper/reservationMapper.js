@@ -22,8 +22,8 @@ const fromModelToEntity = (
   totalPrice,
   carId,
   userId,
-  Car ? fromModelCarToEntity(Car) : {},
-  User ? fromModelUserToEntity(User) : {},
+  (Car && fromModelCarToEntity(Car)),
+  (User && fromModelUserToEntity(User)),
 );
 
 const fromFormToEntity = ({
@@ -40,7 +40,7 @@ const fromFormToEntity = ({
   Number(id),
   startDate,
   finishDate,
-  pricePerDay,
+  Number(pricePerDay),
   totalPrice,
   Number(carId),
   Number(userId),

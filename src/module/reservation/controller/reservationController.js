@@ -19,11 +19,29 @@ class ReservationController {
     }
   }
 
+  async getReservation(req, res, next) {
+    const { id } = req.params;
+
+    try {
+      const reservation = await this.reservationService.getReservation(Number(id));
+      res.status(200).json(reservation);
+
+    } catch (error) {
+      res.status(500);
+      next(error);
+    }
+  }
+
   async makeReservation(req, res, next) {
     const reservation = req.body;
 
     try {
       const reservationEntity = fromFormToEntity(reservation);
+      const { carId, userId } = reservationEntity;
+
+      reservationEntity.Car = await this.carService.getCar(carId);
+      reservationEntity.User = await this.userService.getUser(userId);
+
       const reservationSaved = await this.reservationService.makeReservation(reservationEntity);
       res.status(200).json(reservationSaved);
 

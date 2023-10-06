@@ -15,8 +15,7 @@ class CarRepository {
 
   async getAll() {
     const cars = await this.carModel.findAll();
-    const carsEntity = cars.map((car) => fromModelToEntity(car));
-    return carsEntity;
+    return cars.map(fromModelToEntity);
   }
 
   async save(car) {

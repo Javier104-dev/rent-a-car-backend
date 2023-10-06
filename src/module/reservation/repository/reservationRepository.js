@@ -27,10 +27,32 @@ class ReservationRepository {
     return reservationsEntity;
   }
 
-  async makeReservation(reservation) {
-    const reservationModel = this.reservationModel.build(reservation, { idNewRecord: !reservation.id });
-    await reservationModel.save();
-    return fromModelToEntity(reservationModel);
+  async getReservation(id) {
+    const reservation = await this.reservationModel.findByPk(id, {
+      include: [
+        { model: CarModel, paranoid: false },
+        { model: UserModel, paranoid: false },
+      ],
+    });
+
+    if (!reservation) throw new Error(`No se encontraron reservas con el id: ${id}`);
+
+    return fromModelToEntity(
+      reservation,
+      fromModelCarToEntity,
+      fromModelUserToEntity,
+    );
+  }
+
+  async makeReservation(reservationEntity) {
+    const reservation = this.reservationModel.build(reservationEntity, { idNewRecord: !reservationEntity.id });
+    await reservation.save();
+
+    return fromModelToEntity(
+      reservation,
+      fromModelCarToEntity,
+      fromModelUserToEntity,
+    );
   }
 }
 
