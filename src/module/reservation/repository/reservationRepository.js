@@ -45,7 +45,7 @@ class ReservationRepository {
   }
 
   async makeReservation(reservationEntity) {
-    const reservation = this.reservationModel.build(reservationEntity, { idNewRecord: !reservationEntity.id });
+    const reservation = this.reservationModel.build(reservationEntity, { isNewRecord: !reservationEntity.id });
     await reservation.save();
 
     return fromModelToEntity(
