@@ -11,6 +11,8 @@ const fromModelToEntity = (
     userId,
     Car,
     User,
+    createdAt,
+    updatedAt,
   },
   fromModelCarToEntity,
   fromModelUserToEntity,
@@ -22,6 +24,8 @@ const fromModelToEntity = (
   totalPrice,
   carId,
   userId,
+  createdAt,
+  updatedAt,
   (Car && fromModelCarToEntity(Car)),
   (User && fromModelUserToEntity(User)),
 );
@@ -34,6 +38,8 @@ const fromFormToEntity = ({
   'total-price': totalPrice,
   'car-id': carId,
   'user-id': userId,
+  'created-at': createdAt,
+  'updated-at': updatedAt,
   Car,
   User,
 }) => new Reservation(
@@ -46,6 +52,8 @@ const fromFormToEntity = ({
   Number(userId),
   Car,
   User,
+  createdAt,
+  updatedAt,
 );
 
 module.exports = {

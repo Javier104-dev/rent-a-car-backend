@@ -33,8 +33,8 @@ const fromFormToEntity = ({
   'phone-number': phoneNumber,
   email,
   birthdate,
-  'create-at': createdAt,
-  'update-at': updatedAt,
+  'created-at': createdAt,
+  'updated-at': updatedAt,
 }) => new User(
   Number(id),
   firstName,
