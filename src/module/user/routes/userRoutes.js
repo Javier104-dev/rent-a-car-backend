@@ -4,9 +4,9 @@ const routes = express.Router();
 
 const userRoutes = (container) => {
   const controller = container.get('UserController');
-  routes.get('/users', controller.getAll.bind(controller));
-  routes.get('/users/:id', controller.getUser.bind(controller));
-  routes.post('/users', controller.save.bind(controller));
+  routes.get('/user', controller.getAll.bind(controller));
+  routes.get('/user/:id', controller.getUser.bind(controller));
+  routes.post('/user', controller.save.bind(controller));
   return routes;
 };
 

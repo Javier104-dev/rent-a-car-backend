@@ -2,6 +2,7 @@
 /* eslint-disable no-unused-vars */
 
 const express = require('express');
+const cors = require('cors');
 const { HOST, PORT } = require('./config/config');
 const configureDI = require('./config/configDi');
 const { userRoutes } = require('./module/user/module');
@@ -12,6 +13,10 @@ const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.use(cors({
+  origin: '*',
+}));
 
 const container = configureDI();
 const Sequelize = container.get('Sequelize');
