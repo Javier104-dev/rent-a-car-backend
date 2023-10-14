@@ -20,7 +20,7 @@ class User {
     this.email = email;
     this.birthdate = birthdate;
     this.createdAt = createdAt;
-    this.updateAt = updatedAt;
+    this.updatedAt = updatedAt;
   }
 }
 

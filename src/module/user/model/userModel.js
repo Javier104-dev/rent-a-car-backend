@@ -37,7 +37,7 @@ class UserModel extends Model {
           allowNull: false,
         },
         birthdate: {
-          type: DataTypes.STRING(100),
+          type: DataTypes.DATE,
           allowNull: false,
         },
       },
