@@ -26,7 +26,7 @@ app.use(carRoutes(container));
 app.use(reservationRoutes(container));
 
 app.use('*', (req, res) => {
-  res.status(404).json({ msg: 'Pagina no encontrada' });
+  res.status(404).json({ msg: 'Página no encontrada' });
 });
 
 app.use((error, req, res, next) => {
