@@ -23,11 +23,11 @@ Creación de un servidor para la gestión de un negocio de renta de autos. El se
 El proyecto está construido con clases y con una arquitectura en capas para lograr el encapsulamiento y abstracción de todo el código, siguiendo los principios `SOLID` para el desarrollo de aplicaciones, sobre todo `Dependency Inversion: Inversión de dependencia`, usando la biblioteca [rsdi](https://www.npmjs.com/package/rsdi) para lograr la inyección de dependencias.
 
 ### MySQL y consultas
-En este proyecto usamos MySQL como base de datos, porque necesitamos relacionar varias tablas para lograr el objetivo del proyecto y poder gestionar las reservas correctamente. Se relacionan las tablas: User, Car y Reservation.
+En este proyecto usamos MySQL como base de datos, porque necesitamos relacionar varias tablas para lograr el objetivo del proyecto y poder gestionar las reservas correctamente. Las tablas User y Car usan como tabla intermedia a Reservation.
 
 `Sequelize` nos facilita la comunicación con MySQL, también nos ayuda con la creación y la sincronización de las modelos, corriendo el comando `npm run database:sync`.
 
-Para la obtención datos relacionados, o sea, traer un registro junto con todos sus registros asociados de otras tablas se utiliza `include`(operación `JOIN` en SQL) de Sequelize, asi podremos relacionar las tablas y obtener, por ejemplo, una reservación con el auto y usuario correspondiente.
+Para la obtención de datos relacionados, o sea traer un registro junto con todos sus registros asociados de otras tablas, se utiliza `include`(operación `JOIN` en SQL) de Sequelize, asi podremos relacionar las tablas y obtener, por ejemplo, una reservación con el auto y usuario correspondiente.
 
 Ejemplo:
 - **Request**
@@ -112,15 +112,113 @@ Antes de iniciar el proyecto debemos sincronizar los modelos con la base de dato
 <h2 align='center'>Métodos HTTP</h2>
 
 ### Métodos utilizados en el proyecto
-*Módulo car, reservation o user.
+(*) Módulo car, reservation o user.
 
 | Tipo   | URI                           | Descripción                                                                   |
 | ------ | ----------------------------- | ----------------------------------------------------------------------------- |
-| GET    | http://127.0.0.1:8080/*       | Obtiene todos los registros de la DB                                          |
-| GET    | http://127.0.0.1:8080/*/:id   | Obtiene un registro en específico                                             |
-| POST   | http://127.0.0.1:8080/*       | Crea o actuliza un registro                                                   |
-| DELETE | http://127.0.0.1:8080/car/:id | Únicamente el módulo car tiene un metodo delete. Elimina un registro de la DB |
+| GET    | http://127.0.0.1:8080/(*)     | Obtiene todos los registros de la DB                                          |
+| GET    | http://127.0.0.1:8080/(*)/:id | Obtiene un registro en específico                                             |
+| POST   | http://127.0.0.1:8080/(*)     | Crea o actuliza un registro                                                   |
+| DELETE | http://127.0.0.1:8080/car/:id | Únicamente el módulo car tiene el metodo delete. Elimina un registro de la DB |
 | USE    | *                             | Página no encontrada                                                          |
+
+<h2 align='center'>Ejemplos de peticiones y métodos</h2>
+En cada ejemplo se usará un módulo diferente, ya que todos tienen una estructura y métodos similares, salvo Car que es el único en tener un método DELETE.
+
+### Método GET
+**Request**
+- Ejemplo de URI utilizado
+  ```
+  http://127.0.0.1:8080/user
+  ```
+
+**Response**
+- Código **HTTP 200** *Ok*
+  ``` json
+  [
+    {
+      "id": 1,
+      "firstName": "Juan",
+      "lastName": "Perez",
+      "nationality": "Argentina",
+      "address": "Calle 234",
+      "phoneNumber": "42425858",
+      "email": "juan@gmail.com",
+      "birthdate": "1980-01-01T00:00:00.000Z",
+      "createdAt": "2023-11-25T01:53:41.000Z",
+      "updatedAt": "2023-11-25T01:53:41.000Z"
+    },
+  ]
+  ```
+- Código **HTTP 500**: *Error interno*
+
+### Método GET - Específico
+**Request**
+
+- Ejemplo de URI utilizado
+  ```
+  http://127.0.0.1:8080/car/4
+  ```
+
+- Parámetro obligatorio de tipo URL
+  - **4**: *(tipo: integer. Indica el código del auto que se quiere obtener)*
+
+**Response**
+- Código **HTTP 200** *Ok*
+  ``` json
+  {
+    "id": 4,
+    "brand": "Ford",
+    "model": "Ranger",
+    "year": 2023,
+    "kms": 8000,
+    "color": "black",
+    "passengers": 5,
+    "price": 2000,
+    "img": null,
+    "createdAt": "2023-11-25T01:49:26.000Z",
+    "updatedAt": "2023-11-25T01:49:26.000Z"
+  }
+  ```
+- Código **HTTP 500**: *El id no esta definido*
+- Código **HTTP 500**: *No se encontraron autos con el id 4*
+
+### Método POST
+**Request**
+- URI utilizado
+  ```
+  http://127.0.0.1:8080/reservation
+  ```
+
+- Parámetros requeridos del BODY
+  - **"startDate"="2023-11-25T02:05:00.000Z"**: *(tipo: date. Fecha de inicio del alquiler)*
+  - **"finishDate"="2023-11-30T02:05:00.000Z"**: *(tipo: date. Fecha final del alquiler)*
+  - **"pricePerDay"="1000"**: *(tipo: float. Precio por día)*
+  - **"totalPrice"="5000"**: *(tipo: float. Precio total)*
+  - **"carId"="1"**: *(tipo: integer. Id del auto alquilado)*
+  - **"userId"="1"**: *(tipo: integer. Id del cliente registrado)*
+
+**Response**
+  - Código **HTTP 200** Ok
+    ``` json
+    {
+      "id": 1,
+      "startDate": "2023-11-25T02:05:00.000Z",
+      "finishDate": "2023-11-30T02:05:00.000Z",
+      "pricePerDay": 1000,
+      "totalPrice": 5000,
+      "carId": 1,
+      "userId": 1,
+      "createdAt": "2023-11-25T02:05:18.000Z",
+      "updatedAt": "2023-11-25T02:05:18.000Z",
+    }
+    ```
+  - Código **HTTP 500**: *El id no esta definido*;
+  - Código **HTTP 500**: *No se encontraron usuarios con el id 1*;
+  - Código **HTTP 500**: *No se encontraron autos con el id 1*;
+  - Código **HTTP 500**: *El Auto debe ser una instancia de Car*;
+  - Código **HTTP 500**: *El Usuario debe ser una instancia de User*;
+
 
 <h2 align='center'>Instrucciones de instalación</h2>
 
