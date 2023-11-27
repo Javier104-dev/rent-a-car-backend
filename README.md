@@ -193,8 +193,6 @@ En cada ejemplo se usará un módulo diferente, ya que todos tienen una estructu
 - Parámetros requeridos del BODY
   - **"startDate"="2023-11-25T02:05:00.000Z"**: *(tipo: date. Fecha de inicio del alquiler)*
   - **"finishDate"="2023-11-30T02:05:00.000Z"**: *(tipo: date. Fecha final del alquiler)*
-  - **"pricePerDay"="1000"**: *(tipo: float. Precio por día)*
-  - **"totalPrice"="5000"**: *(tipo: float. Precio total)*
   - **"carId"="1"**: *(tipo: integer. Id del auto alquilado)*
   - **"userId"="1"**: *(tipo: integer. Id del cliente registrado)*
 
@@ -219,6 +217,62 @@ En cada ejemplo se usará un módulo diferente, ya que todos tienen una estructu
   - Código **HTTP 500**: *El Auto debe ser una instancia de Car*;
   - Código **HTTP 500**: *El Usuario debe ser una instancia de User*;
 
+### Método PUT usando POST
+Usamos el método POST y su URI para actualizar un registro, con la `lógica de Sequelize` podremos identificar y saber que hacer con los datos recibidos, dependiendo de si posee o no ID.
+
+Si `posee un ID`, Sequelize usara la entidad para modificar un registro existente con ese ID.
+<br>
+Si `no posee un ID`, Sequelize entenderá que esa entidad no existe y creara su registro.
+
+**Request**
+- URI utilizado
+  ```
+  http://127.0.0.1:8080/car
+  ```
+
+- Parámetro obligatorio del BODY
+  - **"id"=4**: *(tipo: integer. Indica el id del auto que se requiere modificar)*
+
+- Parámetros requeridos del BODY
+  - **"color"="yellow"**: *(tipo: string. Establece el valor del nombre)*
+  - **"passengers"=4**: *(tipo: integer. Establece el valor del número de ocupantes del auto)*
+  - **"price"=1500**: *(tipo: float. Establece el precio por dia del auto)*
+
+**Response**
+  - Código **HTTP 200** Ok: *Registro con id: 1 actualizado con exito*
+    ``` json
+    {
+      "id": 4,
+      "brand": "Ford",
+      "model": "Ranger",
+      "year": 2023,
+      "kms": 8000,
+      "color": "yellow",
+      "passengers": 5,
+      "price": 2000,
+      "img": null,
+      "createdAt": "2023-11-25T01:49:26.000Z",
+      "updatedAt": "2023-11-28T05:49:26.000Z"
+    }
+    ```
+  - Código **HTTP 500**: *El auto debe ser una instancia de Car*;
+
+### Método DELETE
+Solo disponible en el módulo Car.
+
+**Request**
+- URI utilizado
+  ```
+  http://127.0.0.1:8080/car/5
+  ```
+
+- Parámetro obligatorio de tipo URL
+  - **5**: *(tipo: integer. Indica el id del auto que se requiere eliminar)*
+
+**Response**
+- Código **HTTP 200** Ok: *Auto con id 5 eliminado*
+- Código **HTTP 500**: *El id no esta definido*
+- Código **HTTP 500**: *El auto debe ser una instancia de Car*
 
 <h2 align='center'>Instrucciones de instalación</h2>
 
