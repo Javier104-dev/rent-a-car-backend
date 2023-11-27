@@ -2,7 +2,12 @@
 
 <h2 align='center'>Diagrama de entidad relación</h2>
 
-![Diagrama](/docs/diagrama-entidad-relacion.png)
+<p align='center'>
+  <img
+    alt='Diagrama de relaciones'
+    src='./docs/diagrama-entidad-relacion.png'
+  >
+</p>
 
 ### Especificaciones
 - Servidor: http://127.0.0.1:8080
