@@ -1,5 +1,9 @@
 <h1 align='center'>Rent a car back-end</h1>
 
+<h2 align='center'>Diagrama de entidad relación</h2>
+
+![Diagrama](/docs/diagrama-entidad-relacion.png)
+
 ### Especificaciones
 - Servidor: http://127.0.0.1:8080
 - Versión: 1.0.0
@@ -211,11 +215,11 @@ En cada ejemplo se usará un módulo diferente, ya que todos tienen una estructu
       "updatedAt": "2023-11-25T02:05:18.000Z",
     }
     ```
-  - Código **HTTP 500**: *El id no esta definido*;
-  - Código **HTTP 500**: *No se encontraron usuarios con el id 1*;
-  - Código **HTTP 500**: *No se encontraron autos con el id 1*;
-  - Código **HTTP 500**: *El Auto debe ser una instancia de Car*;
-  - Código **HTTP 500**: *El Usuario debe ser una instancia de User*;
+  - Código **HTTP 500**: *El id no esta definido*
+  - Código **HTTP 500**: *No se encontraron usuarios con el id 1*
+  - Código **HTTP 500**: *No se encontraron autos con el id 1*
+  - Código **HTTP 500**: *El Auto debe ser una instancia de Car*
+  - Código **HTTP 500**: *El Usuario debe ser una instancia de User*
 
 ### Método PUT usando POST
 Usamos el método POST y su URI para actualizar un registro, con la `lógica de Sequelize` podremos identificar y saber que hacer con los datos recibidos, dependiendo de si posee o no ID.
