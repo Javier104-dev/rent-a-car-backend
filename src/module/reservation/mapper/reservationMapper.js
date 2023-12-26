@@ -40,8 +40,8 @@ const fromFormToEntity = ({
   'user-id': userId,
   'created-at': createdAt,
   'updated-at': updatedAt,
-  Car,
-  User,
+  car,
+  user,
 }) => new Reservation(
   Number(id),
   startDate,
@@ -50,8 +50,8 @@ const fromFormToEntity = ({
   totalPrice,
   Number(carId),
   Number(userId),
-  Car,
-  User,
+  car,
+  user,
   createdAt,
   updatedAt,
 );

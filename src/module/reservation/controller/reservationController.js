@@ -39,8 +39,8 @@ class ReservationController {
       const reservationEntity = fromFormToEntity(reservation);
       const { carId, userId } = reservationEntity;
 
-      reservationEntity.Car = await this.carService.getCar(carId);
-      reservationEntity.User = await this.userService.getUser(userId);
+      reservationEntity.car = await this.carService.getCar(carId);
+      reservationEntity.user = await this.userService.getUser(userId);
 
       const reservationSaved = await this.reservationService.makeReservation(reservationEntity);
       res.status(200).json(reservationSaved);

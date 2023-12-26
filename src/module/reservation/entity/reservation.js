@@ -10,8 +10,8 @@ class Reservation {
     userId,
     createdAt,
     updatedAt,
-    Car,
-    User,
+    car,
+    user,
   ) {
     this.id = id;
     this.startDate = startDate;
@@ -22,8 +22,8 @@ class Reservation {
     this.userId = userId;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
-    this.Car = Car;
-    this.User = User;
+    this.car = car;
+    this.user = user;
   }
 
   calculateReservation() {
@@ -34,7 +34,7 @@ class Reservation {
   }
 
   reserve() {
-    this.pricePerDay = this.pricePerDay || this.Car.price;
+    this.pricePerDay = this.pricePerDay || this.car.price;
     this.totalPrice = this.pricePerDay * this.calculateReservation();
     return this;
   }

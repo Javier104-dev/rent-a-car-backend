@@ -17,8 +17,8 @@ class ReservationService {
   }
 
   async makeReservation(reservationEntity) {
-    if (!(reservationEntity.Car instanceof Car)) throw new Error('El Auto debe ser una instancia de Car');
-    if (!(reservationEntity.User instanceof User)) throw new Error('El Usuario debe ser una instancia de User');
+    if (!(reservationEntity.car instanceof Car)) throw new Error('El Auto debe ser una instancia de Car');
+    if (!(reservationEntity.user instanceof User)) throw new Error('El Usuario debe ser una instancia de User');
 
     reservationEntity.reserve();
     return this.reservationRepository.makeReservation(reservationEntity);
