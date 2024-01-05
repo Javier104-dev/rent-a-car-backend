@@ -50,7 +50,7 @@ class CarController {
     try {
       const findCar = await this.carService.getCar(Number(id));
       const boolean = await this.carService.delete(findCar);
-      res.status(200).json({ delete: boolean, msg: `Auto con id ${findCar.id} eliminado` });
+      res.status(200).json({ delete: boolean, message: `Auto con id ${findCar.id} eliminado` });
 
     } catch (error) {
       res.status(500);
