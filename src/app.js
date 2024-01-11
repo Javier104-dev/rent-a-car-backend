@@ -5,9 +5,9 @@ const express = require('express');
 const cors = require('cors');
 const { HOST, PORT } = require('./config/config');
 const configureDI = require('./config/configDi');
-const { userRoutes } = require('./module/user/module');
-const { carRoutes } = require('./module/car/module');
-const { reservationRoutes } = require('./module/reservation/module');
+const { initUserModule } = require('./module/user/module');
+const { initCarModule } = require('./module/car/module');
+const { initReservationModule } = require('./module/reservation/module');
 
 const app = express();
 
@@ -21,9 +21,9 @@ app.use(cors({
 const container = configureDI();
 const Sequelize = container.get('Sequelize');
 
-app.use(userRoutes(container));
-app.use(carRoutes(container));
-app.use(reservationRoutes(container));
+initCarModule(app, container);
+initUserModule(app, container);
+initReservationModule(app, container);
 
 app.use('*', (req, res) => {
   res.status(404).json({ message: 'Página no encontrada' });

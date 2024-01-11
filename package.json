@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node ./src/app.js",
-    "dev": "nodemon ./src/app.js",
+    "start:dev": "nodemon ./src/app.js",
     "database:sync": "node ./src/cli/init.db.js"
   },
   "author": "Javier Villca",
